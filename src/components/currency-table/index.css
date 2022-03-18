@@ -1,0 +1,7 @@
+.table{
+    width: 60%;
+}
+.table tbody .currency-el:hover {
+    cursor: default;
+	background: none;
+}

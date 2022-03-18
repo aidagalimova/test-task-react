@@ -1,0 +1,42 @@
+.table {
+	width: 100%;
+	border: none;
+	margin-bottom: 20px;
+	border-collapse: collapse;
+}
+
+.table thead th {
+	font-weight: bold;
+	text-align: left;
+	border: none;
+	padding: 10px 15px;
+	font-size: 14px;
+}
+.table tr{
+	border-bottom: 0.5px solid #ddd;
+}
+.table tbody td {
+	text-align: left;
+	border: none;
+	padding: 10px 15px;
+	font-size: 14px;
+	vertical-align: top;
+}
+.table tbody tr:hover {
+    cursor: pointer;
+	background: #f7f7f7;
+}
+.btn{
+	padding: 8px 24px;
+	background-color: #f1f1f1; 
+	font-size: 16px; 
+	color: black;
+	border: 1px solid #888888;
+	border-radius: 8px; 
+	-webkit-transition-duration: 0.4s;
+    transition-duration: 0.4s;
+}
+.btn:hover {
+	cursor: pointer;
+    background-color: #ffffff;
+}
