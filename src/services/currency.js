@@ -1,25 +1,26 @@
-import api from "../axios/cbr-api";
+import api from "../axios/cbr-daily-api";
 import { setCurrencyData } from "../store/actions/currency";
-import XMLParser from "react-xml-parser";
 
-export const getCurrencyData = (id) => async (dispatch) => {
-    const dayCount = 9
-    const date_req2 = new Date();
-    let date_req1 = new Date(date_req2);
-    date_req1.setDate(date_req1.getDate() - dayCount);
-   
-    const params = {
-        date_req1: date_req1.toLocaleDateString(),
-        date_req2: date_req2.toLocaleDateString(),
-        VAL_NM_RQ: id,
-    }
-    const result = await api.get('/XML_dynamic.asp', { params })
-        .then((response) => {
-            if (response.status === 200) {
-                return new XMLParser().parseFromString(response.data);
-            }
-        }).catch(error => console.log(error))
-    if (result) {
-        dispatch(setCurrencyData(result.children))
-    }
+export const getCurrencyData = (code, dayCount) => async (dispatch) => {
+    let result = await api.get(`/archive/${getStringDate(dayCount)}/daily_json.js`).then(response => {
+        if (response.status === 200) {
+            return { date: response.data.Date, value: response.data.Valute[code].Value }
+        }
+    })
+    dispatch(setCurrencyData(result))
+}
+
+const getStringDate = (i) => {
+    let date = new Date();
+    let d = new Date(date.setDate(date.getDate() - i)),
+        month = '' + (d.getMonth() + 1),
+        day = '' + d.getDate(),
+        year = d.getFullYear();
+
+    if (month.length < 2)
+        month = '0' + month;
+    if (day.length < 2)
+        day = '0' + day;
+
+    return [year, month, day].join('/');
 }

@@ -5,7 +5,7 @@ import ReactTooltip from 'react-tooltip';
 import './index.css';
 import { getCurrencyData } from '../../services/currency';
 import CurrencyTable from '../currency-table';
-import { setCurrencyData } from '../../store/actions/currency';
+import { clearCurrencyData } from '../../store/actions/currency';
 
 function ExchangeRatesTable() {
     const [isCurrencyTableOpen, setIsCurrencyTableOpen] = useState(false);
@@ -17,13 +17,16 @@ function ExchangeRatesTable() {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [])
 
-    const getCurrencyTable = (id, name) => {
+    const getCurrencyTable = (code, name) => {
         setIsCurrencyTableOpen(name)
-        dispatch(getCurrencyData(id));
+        // получить данные за десять дней
+        for (let dayCount = 0; dayCount < 10; dayCount++) {
+            dispatch(getCurrencyData(code, dayCount));
+        }
     }
 
     const closeCurrencyTable = () => {
-        dispatch(setCurrencyData([]))
+        dispatch(clearCurrencyData())
         setIsCurrencyTableOpen(false)
     }
     const ExchangeRates = Object.keys(exchangeRates).map((key) => {
@@ -32,7 +35,7 @@ function ExchangeRatesTable() {
             <tr
                 key={rate.ID}
                 data-tip={rate.Name}
-                onClick={() => getCurrencyTable(rate.ID, rate.Name)}>
+                onClick={() => getCurrencyTable(rate.CharCode, rate.Name)}>
                 <td>{rate.NumCode}</td>
                 <td>{rate.Value}</td>
                 <td>{(rate.Value * 100 / rate.Previous - 100).toFixed(2)}</td>

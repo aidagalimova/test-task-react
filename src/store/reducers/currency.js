@@ -6,7 +6,12 @@ export default function currencyDataReducer(state = initState, action) {
         case "SET_CURRENCY_DATA":
             return {
                 ...state,
-                currencyData: action.payload.currencyData
+                currencyData: [...state.currencyData, action.payload.currencyData]
+            }
+        case "CLEAR_CURRENCY_DATA":
+            return {
+                ...state,
+                currencyData: []
             }
         default:
             return state;

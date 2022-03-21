@@ -4,13 +4,11 @@ import './index.css';
 
 function CurrencyTable({ name }) {
     const { currencyData } = useSelector((state) => state.currencyData);
-
     const CurrencyData = currencyData.map((data) => {
         return (
-            <tr className='currency-el' key={data.attributes.Date}>
-                <td>{data.children[1].value}</td>
-                <td>{data.children[0].value}</td>
-                <td>{data.attributes.Date}</td>
+            <tr className='currency-el' key={data.date}>
+                <td>{data.value}</td>
+                <td>{new Date(data.date).toLocaleDateString()}</td>
             </tr>)
     })
 
@@ -20,7 +18,6 @@ function CurrencyTable({ name }) {
             <thead>
                 <tr>
                     <th>Курс</th>
-                    <th>Единиц</th>
                     <th>Дата</th>
                 </tr>
             </thead>

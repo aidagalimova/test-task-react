@@ -4,3 +4,6 @@ export const setCurrencyData = (value) => ({
         currencyData: value,
     },
 })
+export const clearCurrencyData = () => ({
+    type: "CLEAR_CURRENCY_DATA"
+})
